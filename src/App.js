@@ -1,4 +1,5 @@
 import Clock from "./Clock.js";
+import Weather from "./Weather.js";
 
 import "./App.css";
 
