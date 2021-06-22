@@ -1,0 +1,9 @@
+.weather-bar {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: center;
+}
+
+.weather-cards {
+  min-width: 20rem;
+}
