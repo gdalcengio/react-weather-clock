@@ -4,6 +4,8 @@
   justify-content: center;
 }
 
-.weather-cards {
-  min-width: 20rem;
+.weather-card {
+  border: 1px solid black;
+  min-width: 10rem;
+  text-align: center;
 }

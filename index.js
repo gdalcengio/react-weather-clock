@@ -9,15 +9,14 @@ dotenv.config();
 app.use(cors());
 
 app.get("/", function (req, res) {
-  const cityName = "Surrey"; //to be replaced with post data
+  const cityName = "Burnaby"; //to be replaced with post data
   const apiKey = process.env.API_KEY;
-  const weatherUrl = `https://api.openweathermap.org/data/2.5/forecast/?q=${cityName}&appid=${apiKey}`;
+  const weatherUrl = `https://api.openweathermap.org/data/2.5/forecast/?q=${cityName},CA&appid=${apiKey}&units=metric`;
 
-  console.log(apiKey);
   fetch(weatherUrl)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      //   console.log(data);
       res.send(data);
     })
     .catch(console.log);
