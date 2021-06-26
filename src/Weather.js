@@ -1,5 +1,6 @@
 import React from "react";
 import "./weather.css";
+import "./css/weather-icons.css";
 
 //for the dates
 const days = [
@@ -26,32 +27,21 @@ const months = [
   "December",
 ];
 
-// const getWeatherData = async () => {
-//   const cityName = "Surrey";
-//   try {
-//     const resp = await fetch(api.base + "?q=" + cityName + "&appid=" + api.key);
-//     const data = await resp.json();
-
-//     return data;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 function Card(props) {
   //day - given epoch unix seconds, needs milliseconds
   let date = new Date(props.listItem.dt * 1000);
 
-  //thumbnail
+  //thumbnail - referenced from https://erikflowers.github.io/weather-icons/
+  const thumb = `wi wi-owm-${props.listItem.weather[0].id}`;
 
   return (
     <div className="weather-card">
-      <h4>
-        {months[date.getMonth()]} {date.getDate()}
-      </h4>
-      <h2>{days[date.getDay()]}</h2>
+      <p>
+        {days[date.getDay()]}, {months[date.getMonth()]} {date.getDate()}
+      </p>
+      {/* <h2>{days[date.getDay()]}</h2> */}
       <h1>{props.listItem.main.temp}°C</h1>
-      {/* <img src={props.thumbnail} alt="thumbnail"></img> */}
+      <i className={thumb}></i>
       <p>{props.listItem.weather[0].description}</p>
     </div>
   );
