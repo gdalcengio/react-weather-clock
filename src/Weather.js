@@ -1,6 +1,7 @@
 import React from "react";
 import "./weather.css";
 import "./css/weather-icons.css";
+// import e from "cors";
 
 //for the dates
 const days = [
@@ -51,19 +52,26 @@ class Weather extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //   day: "mon",
-      //   degrees: 0,
-      //   status: "status",
-      //   thumbnail: "./thumbnail",
+      city: "Surrey",
       weekdayData: [],
     };
+    this.handleEnterPress = this.handleEnterPress.bind(this);
   }
 
-  //change to onsearchbarkeychange later
-  componentDidMount = () => {
-    // const cityName = "Surrey"; // not BC in GB hahaha either way its a test
-    //fetch url will become "http://localhost:3001" to avoid conflict with 3000
-    fetch("http://localhost:3001")
+  handleEnterPress = (e) => {
+    if (e.keyCode === 13) {
+      this.setState(
+        {
+          city: e.target.value,
+        },
+        this.updateCards
+      );
+      // this.updateCards();
+    }
+  };
+
+  updateCards = () => {
+    fetch(`http://localhost:3001?city=${this.state.city}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -87,9 +95,17 @@ class Weather extends React.Component {
     ));
   };
 
-  //   getWeatherData().then((result) => console.log(result));
   render() {
-    return <div className="weather-bar">{this.formatCards()}</div>;
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Vancouver"
+          onKeyDown={(e) => this.handleEnterPress(e)}
+        ></input>
+        <div className="weather-bar">{this.formatCards()}</div>
+      </div>
+    );
   }
 }
 

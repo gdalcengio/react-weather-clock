@@ -11,3 +11,8 @@
   min-width: 12rem;
   text-align: center;
 }
+
+input[type="text"] {
+  display: block;
+  margin: 0 auto;
+}
