@@ -55,6 +55,7 @@ class Weather extends React.Component {
       city: "Vancouver",
       time: "15:00:00",
       readableTime: "3 pm",
+      data: {},
       weekdayData: [],
     };
     // this.handleEnterPress = this.handleEnterPress.bind(this); not necessary when accessing via this?
@@ -78,10 +79,16 @@ class Weather extends React.Component {
   };
 
   handleTimeChange = (e) => {
+    // const localTime = e.target.options[e.target.selectedIndex].text;
+    const time = parseInt(e.target.value);
+    const localTime = `${time / 60 / 60}:00:00`;
+    const convertedTime = new Date(
+      (time + this.state.data.city.timezone) * 1000
+    );
     this.setState(
       {
-        time: e.target.value,
-        readableTime: e.target.options[e.target.selectedIndex].text,
+        time: localTime.toString(),
+        readableTime: convertedTime.toLocaleTimeString(),
       },
       this.updateCards //callback
     );
@@ -96,12 +103,12 @@ class Weather extends React.Component {
         if (data.list !== undefined) {
           //need to filter from 40 3 hour interval entries down to 5
           filteredData = data.list.filter((listItem) =>
-            // listItem.dt_txt.includes("15:00:00")
             listItem.dt_txt.includes(this.state.time)
           );
         }
         this.setState(
           {
+            data: data,
             weekdayData: filteredData,
           },
           () => console.log(this.state)
@@ -140,15 +147,16 @@ class Weather extends React.Component {
             onChange={(e) => this.handleTimeChange(e)}
             defaultValue={this.state.time}
           >
-            <option value="00:00:00">Midnight</option>
-            <option value="03:00:00">3 am</option>
-            <option value="06:00:00">6 am</option>
-            <option value="09:00:00">9 am</option>
-            <option value="12:00:00">Noon</option>
-            <option value="15:00:00">3 pm</option>
-            <option value="18:00:00">6 pm</option>
-            <option value="21:00:00">9 pm</option>
+            <option value="0">Midnight</option>
+            <option value="10800">3 am</option>
+            <option value="21600">6 am</option>
+            <option value="32400">9 am</option>
+            <option value="43200">Noon</option>
+            <option value="54000">3 pm</option>
+            <option value="64800">6 pm</option>
+            <option value="75600">9 pm</option>
           </select>
+          <p>GMT</p>
         </div>
 
         <div className="weather-bar">{this.formatCards()}</div>
