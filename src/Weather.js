@@ -92,11 +92,14 @@ class Weather extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        //need to filter from 40 3 hour interval entries down to 5
-        const filteredData = data.list.filter((listItem) =>
-          // listItem.dt_txt.includes("15:00:00")
-          listItem.dt_txt.includes(this.state.time)
-        );
+        var filteredData = null;
+        if (data.list !== undefined) {
+          //need to filter from 40 3 hour interval entries down to 5
+          filteredData = data.list.filter((listItem) =>
+            // listItem.dt_txt.includes("15:00:00")
+            listItem.dt_txt.includes(this.state.time)
+          );
+        }
         this.setState(
           {
             weekdayData: filteredData,
@@ -108,9 +111,13 @@ class Weather extends React.Component {
   };
 
   formatCards = () => {
-    return this.state.weekdayData.map((listItem, i) => (
-      <Card listItem={listItem} key={i} time={this.state.readableTime} />
-    ));
+    if (this.state.weekdayData === null) {
+      return <p>City could not be found</p>;
+    } else {
+      return this.state.weekdayData.map((listItem, i) => (
+        <Card listItem={listItem} key={i} time={this.state.readableTime} />
+      ));
+    }
   };
 
   componentDidMount = () => {
