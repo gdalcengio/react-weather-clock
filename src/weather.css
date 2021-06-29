@@ -12,7 +12,7 @@
   text-align: center;
 }
 
-input[type="text"] {
-  display: block;
-  margin: 0 auto;
+.options {
+  display: flex;
+  justify-content: center;
 }

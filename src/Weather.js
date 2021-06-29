@@ -1,7 +1,6 @@
 import React from "react";
 import "./weather.css";
 import "./css/weather-icons.css";
-// import e from "cors";
 
 //for the dates
 const days = [
@@ -40,6 +39,7 @@ function Card(props) {
       <p>
         {days[date.getDay()]}, {months[date.getMonth()]} {date.getDate()}
       </p>
+      <p>{props.time}</p>
       {/* <h2>{days[date.getDay()]}</h2> */}
       <h1>{props.listItem.main.temp}°C</h1>
       <i className={thumb}></i>
@@ -52,22 +52,39 @@ class Weather extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      city: "Surrey",
+      city: "Vancouver",
+      time: "15:00:00",
+      readableTime: "3 pm",
       weekdayData: [],
     };
-    this.handleEnterPress = this.handleEnterPress.bind(this);
+    // this.handleEnterPress = this.handleEnterPress.bind(this); not necessary when accessing via this?
   }
 
   handleEnterPress = (e) => {
     if (e.keyCode === 13) {
+      //in case no value
+      if (e.target.value === "") {
+        this.updateCards();
+        return;
+      }
+
       this.setState(
         {
           city: e.target.value,
         },
-        this.updateCards
+        this.updateCards //callback
       );
-      // this.updateCards();
     }
+  };
+
+  handleTimeChange = (e) => {
+    this.setState(
+      {
+        time: e.target.value,
+        readableTime: e.target.options[e.target.selectedIndex].text,
+      },
+      this.updateCards //callback
+    );
   };
 
   updateCards = () => {
@@ -77,7 +94,8 @@ class Weather extends React.Component {
         console.log(data);
         //need to filter from 40 3 hour interval entries down to 5
         const filteredData = data.list.filter((listItem) =>
-          listItem.dt_txt.includes("15:00:00")
+          // listItem.dt_txt.includes("15:00:00")
+          listItem.dt_txt.includes(this.state.time)
         );
         this.setState(
           {
@@ -91,18 +109,41 @@ class Weather extends React.Component {
 
   formatCards = () => {
     return this.state.weekdayData.map((listItem, i) => (
-      <Card listItem={listItem} key={i} />
+      <Card listItem={listItem} key={i} time={this.state.readableTime} />
     ));
+  };
+
+  componentDidMount = () => {
+    this.updateCards();
   };
 
   render() {
     return (
-      <div>
-        <input
-          type="text"
-          placeholder="Vancouver"
-          onKeyDown={(e) => this.handleEnterPress(e)}
-        ></input>
+      <div className="weather">
+        <div className="options">
+          <input
+            type="text"
+            placeholder="Vancouver"
+            onKeyDown={(e) => this.handleEnterPress(e)}
+          ></input>
+
+          <select
+            name="times"
+            id="names"
+            onChange={(e) => this.handleTimeChange(e)}
+            defaultValue={this.state.time}
+          >
+            <option value="00:00:00">Midnight</option>
+            <option value="03:00:00">3 am</option>
+            <option value="06:00:00">6 am</option>
+            <option value="09:00:00">9 am</option>
+            <option value="12:00:00">Noon</option>
+            <option value="15:00:00">3 pm</option>
+            <option value="18:00:00">6 pm</option>
+            <option value="21:00:00">9 pm</option>
+          </select>
+        </div>
+
         <div className="weather-bar">{this.formatCards()}</div>
       </div>
     );
