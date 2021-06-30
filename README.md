@@ -2,7 +2,7 @@
 
 The main goal of this project is to practice javascript and learn react fundamentals.
 
-**note:** Time is chosen in UTC/GMT but displayed in local format
+**todo:** Time is chosen in UTC/GMT but displayed in local format
 
 ## JS concepts I studied
 

@@ -53,8 +53,8 @@ class Weather extends React.Component {
     super(props);
     this.state = {
       city: "Vancouver",
-      time: "15:00:00",
-      readableTime: "3 pm",
+      time: "12:00:00",
+      readableTime: "12:00:00 am",
       data: {},
       weekdayData: [],
     };
@@ -145,7 +145,7 @@ class Weather extends React.Component {
             name="times"
             id="names"
             onChange={(e) => this.handleTimeChange(e)}
-            defaultValue={this.state.time}
+            defaultValue="54000"
           >
             <option value="0">Midnight</option>
             <option value="10800">3 am</option>
