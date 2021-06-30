@@ -1,5 +1,7 @@
 # Weather Clock
 
+![Main functionality](weatherclock3.gif)
+
 The main goal of this project is to practice javascript and learn react fundamentals.
 
 **todo:** Time is chosen in UTC/GMT but displayed in local format
